@@ -1,14 +1,12 @@
-package com.example.lab6.model.entity;
+package com.example.lab6.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "intenciones")
-public class Intencion {
+@Table(name = "reservas")
+public class Reserva {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,24 +14,24 @@ public class Intencion {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
+
     private Usuario usuario;
     
-    @NotBlank(message = "La descripcion es obligatoria")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mesa_id", nullable = false)
+    private Mesa mesa;
 
-    @Size(min = 15, message = "La descripcion debe tener al menos 15 caracteres")
-
-    @Size(max = 255)
-    @Column(nullable = false, length = 255)
-    private String descripcion;
     
     @Column(nullable = false)
     private LocalDateTime fecha;
-    
+
+
     @PrePersist
     public void prePersist() {
         fecha = LocalDateTime.now();
     }
-    
+
+
     public Long getId() {
         return id;
     }
@@ -50,12 +48,12 @@ public class Intencion {
         this.usuario = usuario;
     }
     
-    public String getDescripcion() {
-        return descripcion;
+    public Mesa getMesa() {
+        return mesa;
     }
     
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
     }
     
     public LocalDateTime getFecha() {

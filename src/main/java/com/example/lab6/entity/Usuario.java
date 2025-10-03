@@ -1,4 +1,4 @@
-package com.example.lab6.model.entity;
+package com.example.lab6.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

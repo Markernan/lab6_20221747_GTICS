@@ -1,10 +1,10 @@
-package com.example.lab6.model.entity;
+package com.example.lab6.entity;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "asignaciones_cancion")
-public class AsignacionCancion {
+@Table(name = "numeros_casa")
+public class NumeroCasa {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,18 +14,14 @@ public class AsignacionCancion {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cancion_id", nullable = false)
-
-    private CancionCriolla cancion;
+    @Column(name = "numero_objetivo", nullable = false)
+    private Integer numeroObjetivo;
     
     @Column(nullable = false)
-
     private Integer intentos = 0;
     
     @Column(nullable = false)
-
-    private Boolean adivinada = false;
+    private Boolean adivinado = false;
     
     public Long getId() {
         return id;
@@ -43,12 +39,12 @@ public class AsignacionCancion {
         this.usuario = usuario;
     }
     
-    public CancionCriolla getCancion() {
-        return cancion;
+    public Integer getNumeroObjetivo() {
+        return numeroObjetivo;
     }
     
-    public void setCancion(CancionCriolla cancion) {
-        this.cancion = cancion;
+    public void setNumeroObjetivo(Integer numeroObjetivo) {
+        this.numeroObjetivo = numeroObjetivo;
     }
     
     public Integer getIntentos() {
@@ -59,11 +55,11 @@ public class AsignacionCancion {
         this.intentos = intentos;
     }
     
-    public Boolean getAdivinada() {
-        return adivinada;
+    public Boolean getAdivinado() {
+        return adivinado;
     }
     
-    public void setAdivinada(Boolean adivinada) {
-        this.adivinada = adivinada;
+    public void setAdivinado(Boolean adivinado) {
+        this.adivinado = adivinado;
     }
 }
