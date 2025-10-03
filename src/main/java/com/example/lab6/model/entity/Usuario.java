@@ -1,89 +1,86 @@
 package com.example.lab6.model.entity;
-import jakarta.persistence.*;
-import org.aspectj.bridge.IMessage;
 
-import java.util.List;
-import java.util.Set;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
+@Table(name = "usuarios")
 public class Usuario {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @NotBlank(message = "el nombre es obligatorio")
+    @Size(max = 100)
 
-    @Notblank(message = "El nombre tiene que ser obligatorio")
-    @Column(nullable = falsem, length = 100)
+    @Column(nullable = false, length = 100)
+
     private String nombre;
+    
+    @NotBlank(message = "el correo es obligatorio")
 
-    @Email(message = "debe ser un correo valido")
-    @NotBlank(message = "El correo es obligatorio")
+
+    @Email(message = "formato de correo inválido")
+
+    @Size(max = 100)
+
     @Column(nullable = false, unique = true, length = 100)
+
     private String correo;
 
-    @NotBlank(message = "la contraseña es obligatoria")
-    @Column(nullable = false, length = 255)
+
+    @NotBlank(message = "La contraseña es obligatoria")
+
+    @Size(min = 6, message = "La contraseña debe tener al menos 6 caractéres")
+    @Column(nullable = false)
     private String password;
-    @ManyToOne(mappedBy = "usuario")
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+
     @JoinColumn(name = "rol_id", nullable = false)
+
     private Rol rol;
-
-    @OneToMany(mappedBy = "usuario")
-    private Set<Intencion> intenciones;
-
-    @OneToMany(mappedBy = "usuario")
-    private Set<AsignacionCancion> asignaciesonCancion;
-
-    @OneToMany(mappedBy = "usuario")
-    private Set<NumeroCasa> numerosCasa;
-
-    @OneToMany(mappedBy = "usuario")
-    private Set<Reserva> reservas;
-
-    public Usuario() {}
-
-    public Usuario(String nombre, String correo, String password, Rol rol) {
-        this.nombre = nombre;
-        this.correo = correo;
-        this.password = password;
-        this.rol = rol;
-    }
+    
     public Long getId() {
         return id;
     }
+    
     public void setId(Long id) {
         this.id = id;
     }
+    
     public String getNombre() {
         return nombre;
     }
-
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
+    
     public String getCorreo() {
         return correo;
     }
+    
     public void setCorreo(String correo) {
         this.correo = correo;
     }
+    
     public String getPassword() {
         return password;
     }
+    
     public void setPassword(String password) {
         this.password = password;
     }
+    
     public Rol getRol() {
         return rol;
     }
+    
     public void setRol(Rol rol) {
         this.rol = rol;
     }
-    public Set<Intencion> getIntenciones() {
-        return intenciones;
-    }
-    public void setIntenciones(Set<Intencion> intenciones) {
-        this.intenciones = intenciones;
-
-
 }
