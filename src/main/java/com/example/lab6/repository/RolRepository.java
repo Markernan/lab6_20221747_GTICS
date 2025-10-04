@@ -10,6 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface RolRepository extends JpaRepository<Rol, Long> {
+
     @Query("SELECT r FROM Rol r WHERE r.nombre = :nombre")
+
     Optional<Rol> buscarPorNombre(@Param("nombre") String nombre);
 }

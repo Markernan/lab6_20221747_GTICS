@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Mesas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    <div class="container mt-4">
+        <h2>Administrar Mesas Oktoberfest</h2>
+        
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Mesas Libres</h5>
+                        <h3 th:text="${mesasLibres}"></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Mesas Ocupadas</h5>
+                        <h3 th:text="${mesasOcupadas}"></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5>Todas las Mesas</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Numero</th>
+                            <th>Capacidad</th>
+                            <th>Estado</th>
+                            <th>Usuario Reserva</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="mesa : ${mesas}">
+                            <td th:text="${mesa.numero}"></td>
+                            <td th:text="${mesa.capacidad}"></td>
+                            <td>
+                                <span th:if="${mesa.disponible}" class="badge bg-success">Disponible</span>
+                                <span th:unless="${mesa.disponible}" class="badge bg-danger">Ocupada</span>
+                            </td>
+                            <td>
+                                <span th:each="reserva : ${reservas}">
+                                    <span th:if="${reserva.mesa.id == mesa.id}" th:text="${reserva.usuario.nombre}"></span>
+                                </span>
+                            </td>
+                            <td>
+                                <div th:unless="${mesa.disponible}">
+                                    <form method="post" action="/admin/mesas/liberar" class="d-inline me-2">
+                                        <input type="hidden" name="mesaId" th:value="${mesa.id}">
+                                        <button type="submit" class="btn btn-sm btn-warning">Liberar</button>
+                                    </form>
+                                </div>
+                                
+                                <form method="post" action="/admin/mesas/capacidad" class="d-inline">
+                                    <input type="hidden" name="mesaId" th:value="${mesa.id}">
+                                    <div class="input-group" style="width: 120px; display: inline-block;">
+                                        <input type="number" name="nuevaCapacidad" min="1" max="4" th:value="${mesa.capacidad}" class="form-control form-control-sm">
+                                        <button type="submit" class="btn btn-sm btn-primary">Cambiar</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="mt-3">
+            <a href="/admin" class="btn btn-secondary">Volver al Panel</a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

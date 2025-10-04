@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camino de Dulces Halloween</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    <div class="container mt-4">
+        <h2>Camino de Dulces - Halloween</h2>
+        
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+        
+        <div th:if="${tieneAsignacion}">
+            <div th:if="${numeroCasa.adivinado}" class="alert alert-success">
+
+                <h4>Felicidades!</h4>
+
+                <p>Ya encontraste el camino optimo para llegar a la casa <span th:text="${numeroCasa.numeroObjetivo}"></span> 
+                   en <span th:text="${numeroCasa.intentos}"></span> intentos.</p>
+            </div>
+            
+            <div th:unless="${numeroCasa.adivinado}">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Tu Casa Asignada</h5>
+                        <p class="card-text">Casa numero: <span th:text="${numeroObjetivo}"></span></p>
+                        <p class="card-text">Intentos realizados: <span th:text="${intentos}"></span></p>
+                        <p class="card-text">El niño puede avanzar 1, 2, 3, 4, 5 o 6 posiciones por movimiento.</p>
+                        
+                        <form method="post" action="/usuario/halloween/adivinar">
+                            <div class="mb-3">
+                                <label for="pasos" class="form-label">Numero minimo de pasos:</label>
+                                <input type="number" class="form-control" id="pasos" name="pasos" min="1" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Adivinar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div th:unless="${tieneAsignacion}">
+            <div class="alert alert-warning">
+                <h4>No tienes numero de casa asignado</h4>
+                <p>Necesitas que un administrador te asigne un numero de casa para poder jugar.</p>
+                
+                <div th:if="${yaSolicito}" class="mt-3">
+                    <p class="text-info">Ya tienes una solicitud pendiente.</p>
+                </div>
+                
+                <div th:unless="${yaSolicito}">
+                    <form method="post" action="/usuario/halloween/solicitar">
+                        <button type="submit" class="btn btn-success">Solicitar Asignacion</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <a href="/usuario/ranking-halloween" class="btn btn-info">Ver Ranking</a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intenciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    <div class="container mt-4">
+        <h2>Enviar Intencion</h2>
+        
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+        
+        <div th:if="${yaEnvio}" class="alert alert-warning">
+            Ya has enviado una intencion en esta sesion.
+        </div>
+        
+        <div th:unless="${yaEnvio}">
+            <form method="post" action="/usuario/intenciones/enviar" th:object="${intencion}">
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripcion (minimo 15 caracteres)</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" 
+                              rows="4" th:field="*{descripcion}" required></textarea>
+                    <div th:if="${#fields.hasErrors('descripcion')}" class="text-danger">
+                        <small th:each="error : ${#fields.errors('descripcion')}" th:text="${error}"></small>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar Intencion</button>
+            </form>
+        </div>
+        
+        <div class="mt-4">
+            <small class="text-muted">
+                Nota: Solo puedes enviar una intencion por sesion. Evita palabras como "odio", "pelea", etc.
+            </small>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

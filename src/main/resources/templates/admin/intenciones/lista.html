@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intenciones de Usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    <div class="container mt-4">
+        <h2>Intenciones de Usuarios</h2>
+        
+        <div class="card">
+            <div class="card-body">
+                <div th:if="${#lists.isEmpty(intenciones)}" class="alert alert-info">
+                    No hay intenciones registradas.
+                </div>
+                
+                <div th:unless="${#lists.isEmpty(intenciones)}">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Descripcion</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="intencion : ${intenciones}">
+                                <td th:text="${intencion.usuario.nombre}"></td>
+                                <td th:text="${intencion.descripcion}"></td>
+                                <td th:text="${#temporals.format(intencion.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-3">
+            <a href="/admin" class="btn btn-secondary">Volver al Panel</a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
