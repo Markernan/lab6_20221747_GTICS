@@ -22,6 +22,12 @@ public class UsuarioController {
     
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private IntencionRepository intencionRepository;
+
+
+    @Autowired
+    private AsignacionCancionRepository asignacionCancionRepository;
 
     @Autowired
     private NumeroCasaRepository numeroCasaRepository;

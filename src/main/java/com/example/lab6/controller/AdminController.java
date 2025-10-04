@@ -25,6 +25,12 @@ public class AdminController {
     @Autowired
     private HeroeNavalRepository heroeNavalRepository;
 
+    @Autowired
+    private IntencionRepository intencionRepository;
+
+
+    @Autowired
+    private AsignacionCancionRepository asignacionCancionRepository;
 
 
 
